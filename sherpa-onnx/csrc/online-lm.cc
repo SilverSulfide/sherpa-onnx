@@ -109,6 +109,7 @@ void OnlineLM::ComputeLMScore(float scale, int32_t context_size,
         // update NN LM score in hyp
         const float *p_nll = out.first.GetTensorData<float>();
         h.lm_log_prob = -scale * (*p_nll);
+        printf("%lf", h.lm_log_prob);
 
         // update NN LM states in hyp
         h.nn_lm_states = Convert(std::move(out.second));
