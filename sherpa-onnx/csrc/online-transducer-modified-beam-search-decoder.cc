@@ -208,13 +208,13 @@ void OnlineTransducerModifiedBeamSearchDecoder::Decode(
           float y_prob = logit_with_temperature[start * vocab_size + k];
           new_hyp.ys_probs.push_back(y_prob);
 
-          if (lm_) {  // export only when LM is used
-            float lm_prob = new_hyp.lm_log_prob - prev_lm_log_prob;
-            if (lm_scale_ != 0.0) {
-              lm_prob /= lm_scale_;  // remove lm-scale
-            }
-            new_hyp.lm_probs.push_back(lm_prob);
-          }
+//          if (lm_) {  // export only when LM is used
+//            float lm_prob = new_hyp.lm_log_prob - prev_lm_log_prob;
+//            if (lm_scale_ != 0.0) {
+//              lm_prob /= lm_scale_;  // remove lm-scale
+//            }
+//            new_hyp.lm_probs.push_back(lm_prob);
+//          }
 
           // export only when `ContextGraph` is used
           if (ss != nullptr && ss[b]->GetContextGraph() != nullptr) {
