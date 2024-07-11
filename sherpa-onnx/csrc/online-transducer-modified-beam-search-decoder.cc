@@ -240,7 +240,7 @@ void OnlineTransducerModifiedBeamSearchDecoder::Decode(
 
     r.hyps = std::move(hyps);
     // display lm probs on result
-    r.lm_probs = std::move(best_hyp.lm_log_prob);
+    r.lm_probs = best_hyp.lm_log_prob;
     r.tokens = std::move(best_hyp.ys);
     r.num_trailing_blanks = best_hyp.num_trailing_blanks;
     r.frame_offset += num_frames;
