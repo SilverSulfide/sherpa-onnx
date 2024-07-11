@@ -61,7 +61,7 @@ void OnlineTransducerModifiedBeamSearchDecoder::StripLeadingBlanks(
   r->timestamps = std::move(hyp.timestamps);
 
   // export per-token scores
-  r->lm_log_prob = hyp.lm_log_prob
+  r->lm_log_prob = hyp.lm_log_prob;
   r->ys_probs = std::move(hyp.ys_probs);
   r->lm_probs = std::move(hyp.lm_probs);
   r->context_scores = std::move(hyp.context_scores);
