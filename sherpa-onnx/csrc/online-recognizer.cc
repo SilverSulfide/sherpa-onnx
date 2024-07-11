@@ -61,6 +61,7 @@ std::string OnlineRecognizerResult::AsJsonString() const {
   os << "\"timestamps\": " << VecToString(timestamps, 2) << ", ";
   os << "\"ys_probs\": " << VecToString(ys_probs, 6) << ", ";
   os << "\"lm_probs\": " << VecToString(lm_probs, 6) << ", ";
+  os << "\"lm_log_prob\": " << segment << ", ";
   os << "\"context_scores\": " << VecToString(context_scores, 6) << ", ";
   os << "\"segment\": " << segment << ", ";
   os << "\"words\": " << VecToString(words, 0) << ", ";
