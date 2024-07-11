@@ -53,8 +53,6 @@ struct Hypothesis {
 
   // the nn lm score for next token given the current ys
   CopyableOrtValue nn_lm_scores;
-  // FIXME: might not be needed
-  int32_t cur_scored_pos = 0; // cur scored tokens by RNN LM
   // the nn lm states
   std::vector<CopyableOrtValue> nn_lm_states;
 
