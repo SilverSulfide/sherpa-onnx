@@ -29,6 +29,7 @@ struct OnlineTransducerDecoderResult {
   std::vector<float> ys_probs;
   std::vector<float> lm_probs;
   std::vector<float> context_scores;
+  double lm_log_prob = 0;  //< total log-prob score for hypothesis from rescoring language model
 
   // Cache decoder_out for endpointing
   Ort::Value decoder_out;

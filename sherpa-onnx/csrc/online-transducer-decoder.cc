@@ -39,6 +39,7 @@ OnlineTransducerDecoderResult &OnlineTransducerDecoderResult::operator=(
 
   ys_probs = other.ys_probs;
   lm_probs = other.lm_probs;
+  lm_log_prob = other.lm_log_prob
   context_scores = other.context_scores;
 
   return *this;
