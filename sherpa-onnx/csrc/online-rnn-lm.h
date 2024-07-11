@@ -22,27 +22,21 @@ class OnlineRnnLM : public OnlineLM {
 
   explicit OnlineRnnLM(const OnlineLMConfig &config);
 
-  std::pair<Ort::Value, std::vector<Ort::Value>> GetInitStates() override;
+  std::vector<Ort::Value> GetInitStates() override;
 
-  /** ScoreToken a batch of sentences.
+  /** Rescore a batch of sentences.
    *
    * @param x A 2-D tensor of shape (N, L) with data type int64.
+   * @param y A 2-D tensor of shape (N, L) with data type int64.
    * @param states It contains the states for the LM model
    * @return Return a pair containingo
-   *          - log_prob of NN LM
+   *          - negative loglike
    *          - updated states
    *
+   * Caution: It returns negative log likelihood (nll), not log likelihood
    */
-  std::pair<Ort::Value, std::vector<Ort::Value>> ScoreToken(
-      Ort::Value x, std::vector<Ort::Value> states) override;
-
-  /** This function updates lm_lob_prob and nn_lm_scores of hyp
-   *
-   * @param scale LM score
-   * @param hyps It is changed in-place.
-   *
-   */
-  void ComputeLMScore(float scale, Hypothesis *hyp) override;
+  std::pair<Ort::Value, std::vector<Ort::Value>> Rescore(
+      Ort::Value x, Ort::Value y, std::vector<Ort::Value> states) override;
 
  private:
   class Impl;

@@ -9,7 +9,6 @@
 #include <vector>
 
 #include "sherpa-onnx/csrc/online-lm.h"
-#include "sherpa-onnx/csrc/online-stream.h"
 #include "sherpa-onnx/csrc/online-transducer-decoder.h"
 #include "sherpa-onnx/csrc/online-transducer-model.h"
 
@@ -21,25 +20,17 @@ class OnlineTransducerModifiedBeamSearchDecoder
   OnlineTransducerModifiedBeamSearchDecoder(OnlineTransducerModel *model,
                                             OnlineLM *lm,
                                             int32_t max_active_paths,
-                                            float lm_scale, int32_t unk_id,
-                                            float blank_penalty,
-                                            float temperature_scale)
+                                            float lm_scale)
       : model_(model),
         lm_(lm),
         max_active_paths_(max_active_paths),
-        lm_scale_(lm_scale),
-        unk_id_(unk_id),
-        blank_penalty_(blank_penalty),
-        temperature_scale_(temperature_scale) {}
+        lm_scale_(lm_scale) {}
 
   OnlineTransducerDecoderResult GetEmptyResult() const override;
 
   void StripLeadingBlanks(OnlineTransducerDecoderResult *r) const override;
 
   void Decode(Ort::Value encoder_out,
-              std::vector<OnlineTransducerDecoderResult> *result) override;
-
-  void Decode(Ort::Value encoder_out, OnlineStream **ss,
               std::vector<OnlineTransducerDecoderResult> *result) override;
 
   void UpdateDecoderOut(OnlineTransducerDecoderResult *result) override;
@@ -50,9 +41,6 @@ class OnlineTransducerModifiedBeamSearchDecoder
 
   int32_t max_active_paths_;
   float lm_scale_;  // used only when lm_ is not nullptr
-  int32_t unk_id_;
-  float blank_penalty_;
-  float temperature_scale_;
 };
 
 }  // namespace sherpa_onnx
