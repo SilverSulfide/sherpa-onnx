@@ -67,6 +67,7 @@ OnlineTransducerDecoderResult &OnlineTransducerDecoderResult::operator=(
 
   ys_probs = std::move(other.ys_probs);
   lm_probs = std::move(other.lm_probs);
+  lm_log_prob = other.lm_log_prob
   context_scores = std::move(other.context_scores);
 
   return *this;
