@@ -120,6 +120,31 @@ class OnlineRnnLM::Impl {
     ComputeInitStates();
   }
 
+//  void ComputeInitStates() {
+//    constexpr int32_t kBatchSize = 1;
+//    std::array<int64_t, 3> h_shape{rnn_num_layers_, kBatchSize,
+//                                   rnn_hidden_size_};
+//    std::array<int64_t, 3> c_shape{rnn_num_layers_, kBatchSize,
+//                                   rnn_hidden_size_};
+//    Ort::Value h = Ort::Value::CreateTensor<float>(allocator_, h_shape.data(),
+//                                                   h_shape.size());
+//    Ort::Value c = Ort::Value::CreateTensor<float>(allocator_, c_shape.data(),
+//                                                   c_shape.size());
+//    Fill<float>(&h, 0);
+//    Fill<float>(&c, 0);
+//    std::array<int64_t, 2> x_shape{1, 1};
+//    Ort::Value x = Ort::Value::CreateTensor<int64_t>(allocator_, x_shape.data(),
+//                                                     x_shape.size());
+//    *x.GetTensorMutableData<int64_t>() = sos_id_;
+//
+//    std::vector<Ort::Value> states;
+//    states.push_back(std::move(h));
+//    states.push_back(std::move(c));
+//    auto pair = ScoreToken(std::move(x), std::move(states));
+//
+//    init_scores_.value = std::move(pair.first);
+//    init_states_ = std::move(pair.second);
+//  }
   void ComputeInitStates() {
     constexpr int32_t kBatchSize = 1;
     std::array<int64_t, 3> h_shape{rnn_num_layers_, kBatchSize,
@@ -133,16 +158,19 @@ class OnlineRnnLM::Impl {
     Fill<float>(&h, 0);
     Fill<float>(&c, 0);
     std::array<int64_t, 2> x_shape{1, 1};
+    // shape of x and y are same
     Ort::Value x = Ort::Value::CreateTensor<int64_t>(allocator_, x_shape.data(),
                                                      x_shape.size());
+    Ort::Value y = Ort::Value::CreateTensor<int64_t>(allocator_, x_shape.data(),
+                                                     x_shape.size());
     *x.GetTensorMutableData<int64_t>() = sos_id_;
+    *y.GetTensorMutableData<int64_t>() = sos_id_;
 
     std::vector<Ort::Value> states;
     states.push_back(std::move(h));
     states.push_back(std::move(c));
-    auto pair = ScoreToken(std::move(x), std::move(states));
+    auto pair = Rescore(std::move(x), std::move(y), std::move(states));
 
-    init_scores_.value = std::move(pair.first);
     init_states_ = std::move(pair.second);
   }
 
@@ -177,13 +205,18 @@ std::pair<Ort::Value, std::vector<Ort::Value>> OnlineRnnLM::GetInitStates() {
   return impl_->GetInitStates();
 }
 
-std::pair<Ort::Value, std::vector<Ort::Value>> OnlineRnnLM::ScoreToken(
-    Ort::Value x, std::vector<Ort::Value> states) {
-  return impl_->ScoreToken(std::move(x), std::move(states));
+//std::pair<Ort::Value, std::vector<Ort::Value>> OnlineRnnLM::ScoreToken(
+//    Ort::Value x, std::vector<Ort::Value> states) {
+//  return impl_->ScoreToken(std::move(x), std::move(states));
+//}
+
+std::pair<Ort::Value, std::vector<Ort::Value>> OnlineRnnLM::Rescore(
+    Ort::Value x, Ort::Value y, std::vector<Ort::Value> states) {
+  return impl_->Rescore(std::move(x), std::move(y), std::move(states));
 }
 
-void OnlineRnnLM::ComputeLMScore(float scale, Hypothesis *hyp) {
-  return impl_->ComputeLMScore(scale, hyp);
-}
+//void OnlineRnnLM::ComputeLMScore(float scale, Hypothesis *hyp) {
+//  return impl_->ComputeLMScore(scale, hyp);
+//}
 
 }  // namespace sherpa_onnx
