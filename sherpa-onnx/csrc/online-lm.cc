@@ -9,8 +9,8 @@
 #include <utility>
 #include <vector>
 
-#include "sherpa-onnx/csrc/online-rnn-lm.h"
 #include "sherpa-onnx/csrc/onnx-utils.h"
+#include "sherpa-onnx/csrc/online-rnn-lm.h"
 
 namespace sherpa_onnx {
 
