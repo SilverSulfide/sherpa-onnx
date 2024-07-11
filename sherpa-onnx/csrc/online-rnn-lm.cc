@@ -101,6 +101,17 @@ class OnlineRnnLM::Impl {
     return {std::move(out[0]), std::move(next_states)};
   }
 
+   std::vector<Ort::Value> GetInitStates() const {
+    std::vector<Ort::Value> ans;
+    ans.reserve(init_states_.size());
+
+    for (const auto &s : init_states_) {
+      ans.emplace_back(Clone(allocator_, &s));
+    }
+
+    return ans;
+  }
+
  private:
   void Init(const OnlineLMConfig &config) {
     auto buf = ReadFile(config_.model);
