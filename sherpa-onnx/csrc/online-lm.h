@@ -32,8 +32,8 @@ class OnlineLM {
    *          - updated states
    *
    */
-  virtual std::pair<Ort::Value, std::vector<Ort::Value>> ScoreToken(
-      Ort::Value x, std::vector<Ort::Value> states) = 0;
+//  virtual std::pair<Ort::Value, std::vector<Ort::Value>> ScoreToken(
+//      Ort::Value x, std::vector<Ort::Value> states) = 0;
 
   /** This function updates lm_lob_prob and nn_lm_scores of hyp
    *
@@ -41,7 +41,28 @@ class OnlineLM {
    * @param hyps It is changed in-place.
    *
    */
-  virtual void ComputeLMScore(float scale, Hypothesis *hyp) = 0;
+//  virtual void ComputeLMScore(float scale, Hypothesis *hyp) = 0;
+
+  /** Rescore a batch of sentences.
+   *
+   * @param x A 2-D tensor of shape (N, L) with data type int64.
+   * @param x_lens A 1-D tensor of shape (N,) with data type int64.
+   *               It contains number of valid tokens in x before padding.
+   * @return Return a 1-D tensor of shape (N,) containing the negative log
+   *         likelihood of each utterance. Its data type is float32.
+   *
+   * Caution: It returns negative log likelihood (nll), not log likelihood
+   */
+  virtual std::pair<Ort::Value, std::vector<Ort::Value>> Rescore(
+      Ort::Value x, Ort::Value y, std::vector<Ort::Value> states) = 0;
+
+  // This function updates hyp.lm_lob_prob of hyps.
+  //
+  // @param scale LM score
+  // @param context_size Context size of the transducer decoder model
+  // @param hyps It is changed in-place.
+  void ComputeLMScore(float scale, int32_t context_size,
+                      std::vector<Hypotheses> *hyps);
 };
 
 }  // namespace sherpa_onnx

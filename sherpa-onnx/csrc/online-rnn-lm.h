@@ -24,25 +24,40 @@ class OnlineRnnLM : public OnlineLM {
 
   std::pair<Ort::Value, std::vector<Ort::Value>> GetInitStates() override;
 
-  /** ScoreToken a batch of sentences.
+//  /** ScoreToken a batch of sentences.
+//   *
+//   * @param x A 2-D tensor of shape (N, L) with data type int64.
+//   * @param states It contains the states for the LM model
+//   * @return Return a pair containingo
+//   *          - log_prob of NN LM
+//   *          - updated states
+//   *
+//   */
+//  std::pair<Ort::Value, std::vector<Ort::Value>> ScoreToken(
+//      Ort::Value x, std::vector<Ort::Value> states) override;
+//
+//  /** This function updates lm_lob_prob and nn_lm_scores of hyp
+//   *
+//   * @param scale LM score
+//   * @param hyps It is changed in-place.
+//   *
+//   */
+//  void ComputeLMScore(float scale, Hypothesis *hyp) override;
+
+
+   /** Rescore a batch of sentences.
    *
    * @param x A 2-D tensor of shape (N, L) with data type int64.
-   * @param states It contains the states for the LM model
-   * @return Return a pair containingo
-   *          - log_prob of NN LM
-   *          - updated states
+   * @param x_lens A 1-D tensor of shape (N,) with data type int64.
+   *               It contains number of valid tokens in x before padding.
+   * @return Return a 1-D tensor of shape (N,) containing the log likelihood
+   *         of each utterance. Its data type is float32.
    *
+   * Caution: It returns log likelihood, not negative log likelihood (nll).
    */
-  std::pair<Ort::Value, std::vector<Ort::Value>> ScoreToken(
-      Ort::Value x, std::vector<Ort::Value> states) override;
-
-  /** This function updates lm_lob_prob and nn_lm_scores of hyp
-   *
-   * @param scale LM score
-   * @param hyps It is changed in-place.
-   *
-   */
-  void ComputeLMScore(float scale, Hypothesis *hyp) override;
+//  Ort::Value ComputeLMScore(Ort::Value x, Ort::Value x_lens) override;
+  std::pair<Ort::Value, std::vector<Ort::Value>> Rescore(
+      Ort::Value x, Ort::Value y, std::vector<Ort::Value> states) override;
 
  private:
   class Impl;
