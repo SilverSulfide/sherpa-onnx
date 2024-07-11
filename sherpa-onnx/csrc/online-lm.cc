@@ -13,27 +13,27 @@
 
 namespace sherpa_onnx {
 
-static std::vector<CopyableOrtValue> Convert(std::vector<Ort::Value> values) {
-  std::vector<CopyableOrtValue> ans;
-  ans.reserve(values.size());
-
-  for (auto &v : values) {
-    ans.emplace_back(std::move(v));
-  }
-
-  return ans;
-}
-
-static std::vector<Ort::Value> Convert(std::vector<CopyableOrtValue> values) {
-  std::vector<Ort::Value> ans;
-  ans.reserve(values.size());
-
-  for (auto &v : values) {
-    ans.emplace_back(std::move(v.value));
-  }
-
-  return ans;
-}
+//static std::vector<CopyableOrtValue> Convert(std::vector<Ort::Value> values) {
+//  std::vector<CopyableOrtValue> ans;
+//  ans.reserve(values.size());
+//
+//  for (auto &v : values) {
+//    ans.emplace_back(std::move(v));
+//  }
+//
+//  return ans;
+//}
+//
+//static std::vector<Ort::Value> Convert(std::vector<CopyableOrtValue> values) {
+//  std::vector<Ort::Value> ans;
+//  ans.reserve(values.size());
+//
+//  for (auto &v : values) {
+//    ans.emplace_back(std::move(v.value));
+//  }
+//
+//  return ans;
+//}
 
 std::unique_ptr<OnlineLM> OnlineLM::Create(const OnlineLMConfig &config) {
   return std::make_unique<OnlineRnnLM>(config);
