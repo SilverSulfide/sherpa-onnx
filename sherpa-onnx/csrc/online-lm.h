@@ -21,7 +21,7 @@ class OnlineLM {
 
   static std::unique_ptr<OnlineLM> Create(const OnlineLMConfig &config);
 
-  virtual std::pair<Ort::Value, std::vector<Ort::Value>> GetInitStates() = 0;
+   virtual std::vector<Ort::Value> GetInitStates() = 0;
 
   /** ScoreToken a batch of sentences.
    *

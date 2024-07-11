@@ -22,7 +22,7 @@ class OnlineRnnLM : public OnlineLM {
 
   explicit OnlineRnnLM(const OnlineLMConfig &config);
 
-//  std::vector<Ort::Value> GetInitStates() override;
+  std::vector<Ort::Value> GetInitStates() override;
 
 //  /** ScoreToken a batch of sentences.
 //   *
