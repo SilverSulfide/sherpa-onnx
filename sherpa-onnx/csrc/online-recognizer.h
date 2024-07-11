@@ -43,6 +43,7 @@ struct OnlineRecognizerResult {
 
   std::vector<float> ys_probs;  //< log-prob scores from ASR model
   std::vector<float> lm_probs;  //< log-prob scores from language model
+  double lm_log_prob = 0;  //< total log-prob score for hypothesis from rescoring language model
                                 //
   /// log-domain scores from "hot-phrase" contextual boosting
   std::vector<float> context_scores;
