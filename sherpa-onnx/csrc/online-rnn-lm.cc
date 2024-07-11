@@ -101,7 +101,7 @@ class OnlineRnnLM::Impl {
     return {std::move(out[0]), std::move(next_states)};
   }
 
-   std::vector<Ort::Value> GetInitStates() const {
+  std::vector<Ort::Value> GetInitStates() const {
     std::vector<Ort::Value> ans;
     ans.reserve(init_states_.size());
 
