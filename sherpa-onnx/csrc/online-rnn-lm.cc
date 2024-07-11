@@ -212,7 +212,7 @@ OnlineRnnLM::OnlineRnnLM(const OnlineLMConfig &config)
 
 OnlineRnnLM::~OnlineRnnLM() = default;
 
-std::pair<Ort::Value, std::vector<Ort::Value>> OnlineRnnLM::GetInitStates() {
+std::vector<Ort::Value>> OnlineRnnLM::GetInitStates() {
   return impl_->GetInitStates();
 }
 

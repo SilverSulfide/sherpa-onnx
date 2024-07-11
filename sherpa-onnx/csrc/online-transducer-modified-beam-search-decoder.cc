@@ -202,7 +202,7 @@ void OnlineTransducerModifiedBeamSearchDecoder::Decode(
 //        new_hyp.log_prob = p_logprob[k] + context_score -
 //                           prev_lm_log_prob;  // log_prob only includes the
 //                                              // score of the transducer
-        new_hyp.log_prob = p_logprob[k] + context_score
+        new_hyp.log_prob = p_logprob[k] + context_score;
         // export the per-token log scores
         if (new_token != 0 && new_token != unk_id_) {
           float y_prob = logit_with_temperature[start * vocab_size + k];
