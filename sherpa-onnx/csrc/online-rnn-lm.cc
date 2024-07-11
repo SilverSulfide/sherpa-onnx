@@ -29,7 +29,7 @@ class OnlineRnnLM::Impl {
   std::pair<Ort::Value, std::vector<Ort::Value>> Rescore(
       Ort::Value x, Ort::Value y, std::vector<Ort::Value> states) {
     std::array<Ort::Value, 3> inputs = {
-        std::move(x), std::move(y), std::move(states[0]), std::move(states[1])};
+        std::move(x), std::move(y), std::move(states[0])};
 
     auto out =
         sess_->Run({}, input_names_ptr_.data(), inputs.data(), inputs.size(),
